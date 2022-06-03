@@ -31,7 +31,7 @@ async function register(req, res) {
     }
 }
 
-async function login (req, res) {
+async function login(req, res) {
     try {
         let user = await User.findOne({
             where: {

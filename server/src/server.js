@@ -5,6 +5,7 @@ const { Sequelize, Model, DataTypes } = require('sequelize');
 const app = express();
 
 const { register, login } = require('./controllers/userController');
+const { findAllProducts, findProductById } = require('./controllers/productController');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -14,6 +15,9 @@ sequelize.sync();
 
 app.post('/register', register);
 app.post('/login', login);
+
+app.get('/products', findAllProducts);
+app.get('/products/:id', findProductById);
 
 app.listen(3000, () => {
   console.log(`Nex Server is On!`)
