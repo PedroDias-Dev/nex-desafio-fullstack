@@ -1,4 +1,7 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const lodash = require('lodash');
+const SECRET = 'asbadbbdbbh7788888887hb113h3hbb';
 
 const { User } = require('../app/models');
 
@@ -28,6 +31,44 @@ async function register(req, res) {
     }
 }
 
+async function login (req, res) {
+    try {
+        let user = await User.findOne({
+            where: {
+                email: req.body.email
+            }
+        });
+    
+        if(user == []) {
+            res.send(JSON.stringify({"status": 302, "error": 'There is no user with that email!'}));
+            return;
+        }
+    
+        console.log(user)
+        const valid = await bcrypt.compare(req.body.password, user.password);
+        if (!valid) {
+            res.send(JSON.stringify({"status": 404, "error": 'Incorrect password', "token": null}));
+            return;
+        }
+    
+        const token = jwt.sign ({
+            user: lodash.pick(user, ['id', 'email']),
+        },
+        SECRET,
+        {
+            expiresIn: '5m',
+        });
+    
+        res.send(JSON.stringify({"status": 200, "error": null, "token": token}));
+    } catch (error) {
+        console.log(error)
+
+        res.send(JSON.stringify({"status": 302, "error": error}));
+    }
+}
+
+
 module.exports = {
-    register
+    register,
+    login
 }
