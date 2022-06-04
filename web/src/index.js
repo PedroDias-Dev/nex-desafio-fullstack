@@ -1,17 +1,48 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+import Login from './pages/login/index';
+import Register from './pages/register/index';
+import NotFound from './pages/not_found/index';
+import Products from './pages/products/index';
+
+import jwt_decode from 'jwt-decode';
+import * as serviceWorker from './serviceWorker';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+
+const PrivateRoute = ({component : Component, ...rest}) => (
+  <Route
+    {...rest}
+    render = {
+      props => 
+      localStorage.getItem('token') !== null && jwt_decode(localStorage.getItem('token')).role === 'admin' ?
+        <Component {...props} /> :
+        <Redirect to={{pathname : '/login', state :{from : props.location}}} /> 
+    }
+  />
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const routing = (
+  <Router>
+    <Switch>
+      <Route path='/login'  component={Login} />
+      <Route path='/register' component={Register} />
+      <PrivateRoute path='/products' component={Products} />
+
+      <Route component={NotFound} />
+    </Switch>
+  </Router>
+)
+
+ReactDOM.render(
+  routing,
+  document.getElementById('root')
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
