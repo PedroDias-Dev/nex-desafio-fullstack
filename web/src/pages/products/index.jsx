@@ -22,7 +22,6 @@ const Products = () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 if(data.status === "500"){
                     toast.error('There was an error: ' + data.message);
                     return;

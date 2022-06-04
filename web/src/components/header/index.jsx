@@ -23,12 +23,12 @@ export default function Header() {
 
                       setTimeout(localStorage.removeItem('token'), 2000);
                     }
-                  } href="/login">Logout</Nav.Link>
+                  } href="/login" style={{marginLeft: '10px'}}>Logout</Nav.Link>
                 </div>
                 :
                 <div style={{ display : 'flex'}}>
                   <Nav.Link href="/login">Login</Nav.Link>
-                  <Nav.Link href="/register">Register</Nav.Link>
+                  <Nav.Link href="/register" style={{marginLeft: '10px'}}>Register</Nav.Link>
                 </div>
               }
           </Nav>

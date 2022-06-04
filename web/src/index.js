@@ -32,6 +32,13 @@ const routing = (
       <Route path='/register' component={Register} />
       <PrivateRoute path='/products' component={Products} />
 
+      <Route
+        render = {
+          props => 
+            <Redirect to={{pathname : '/products', state :{from : props.location}}} /> 
+        }
+      />
+      
       <Route component={NotFound} />
     </Switch>
   </Router>
