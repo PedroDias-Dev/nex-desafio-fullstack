@@ -5,6 +5,7 @@ const sequelize = new Sequelize(config);
 const Product = sequelize.define('Product', {
   title: DataTypes.STRING,
   description: DataTypes.STRING,
+  imageUrl: DataTypes.STRING
 });
 
 module.exports = Product;
