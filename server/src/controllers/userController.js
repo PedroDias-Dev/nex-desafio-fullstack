@@ -14,7 +14,7 @@ async function register(req, res) {
         });
     
         if(sql.length > 0) {
-            res.send(JSON.stringify({"status": 302, "error": 'The email is already in use!'}));
+            res.status(401).send(JSON.stringify({"status": 302, "error": 'The email is already in use!'}));
             return;
         }
 
@@ -27,7 +27,7 @@ async function register(req, res) {
         res.send(JSON.stringify({"status": 201, "error": null, "response": user}));
     } catch (error) {
         console.log(error)
-        res.send(JSON.stringify({"status": 302, "error": error}));
+        res.status(302).send(JSON.stringify({"status": 302, "error": error}));
     }
 }
 
@@ -40,30 +40,31 @@ async function login(req, res) {
         });
     
         if(user == []) {
-            res.send(JSON.stringify({"status": 302, "error": 'There is no user with that email!'}));
+            res.status(404).send(JSON.stringify({"status": 302, "error": 'There is no user with that email!'}));
             return;
         }
     
         console.log(user)
         const valid = await bcrypt.compare(req.body.password, user.password);
         if (!valid) {
-            res.send(JSON.stringify({"status": 404, "error": 'Incorrect password', "token": null}));
+            res.status(401).send(JSON.stringify({"status": 404, "error": 'Incorrect password', "token": null}));
             return;
         }
     
         const token = jwt.sign ({
             user: lodash.pick(user, ['id', 'email']),
+            role: 'admin'
         },
         SECRET,
         {
             expiresIn: '5m',
         });
     
-        res.send(JSON.stringify({"status": 200, "error": null, "token": token}));
+        res.status(200).send(JSON.stringify({"token": token}));
     } catch (error) {
         console.log(error)
 
-        res.send(JSON.stringify({"status": 302, "error": error}));
+        res.status(302).send(JSON.stringify({"status": 302, "error": error}));
     }
 }
 
