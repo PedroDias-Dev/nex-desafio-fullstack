@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const lodash = require('lodash');
-const SECRET = 'asbadbbdbbh7788888887hb113h3hbb';
+
+require('dotenv').config();
+const SECRET = process.env.SECRET;
 
 const { User } = require('../app/models');
 const { validateEmail } = require('../utils/utils');
@@ -33,7 +35,7 @@ async function register(req, res) {
         }
 
         req.body.password = await bcrypt.hash (req.body.password, 12);
-        console.log('password: ', req.body.password);
+
         let data = {name: req.body.name, email: req.body.email, password: req.body.password};
 
         let user = await User.create(data);
