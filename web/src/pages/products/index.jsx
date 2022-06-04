@@ -6,6 +6,8 @@ import {url} from '../../utils/constants';
 
 import toast, { Toaster } from 'react-hot-toast';
 
+import './index.css';
+
 const Products = () => {
     const [products, setProducts] = useState([]);
 
@@ -37,13 +39,13 @@ const Products = () => {
             <Toaster />
             <Header />
                 <Container>
-                    <Row>
+                    <Row className='productsRow'>
                         {
                             products.length > 0 ?
                             products.map((item, index) => {
                                 return (
-                                    <Col xs='4' key={index}>
-                                        <Card style={{ width: '18rem' }}>
+                                    <Col xs='4' key={index} style={{ marginTop: '20px' }} className='product'>
+                                        <Card style={{ width: '65%' }} className='productCard'>
                                         <Card.Img variant="top" src={item.imageUrl} />
                                         <Card.Body>
                                             <Card.Title>{item.title}</Card.Title>

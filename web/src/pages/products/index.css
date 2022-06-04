@@ -1,0 +1,12 @@
+@media (max-width: 500px) {
+    .productsRow {
+      flex-direction: column;
+    }
+    .product{
+        max-width: 200% !important;
+        width: 100% !important;
+    }
+    .productCard{
+        width: 100% !important;
+    }
+}
