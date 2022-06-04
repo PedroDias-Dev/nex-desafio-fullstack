@@ -2,6 +2,7 @@ import React, { useState }  from 'react';
 import { useHistory } from "react-router-dom";
 
 import {Container, Form, Button} from 'react-bootstrap';
+import Header from '../../components/header';
 
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -45,6 +46,7 @@ const Login = () => {
     return (
         <div>
         <Toaster />
+        <Header />
         <Container className='form-height'>
                 <Form className='form-signin' onSubmit={ event => login(event)} >
                     <div className='text-center'>
