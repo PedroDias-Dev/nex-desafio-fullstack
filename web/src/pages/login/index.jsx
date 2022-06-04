@@ -8,6 +8,8 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import {url} from '../../utils/constants';
 
+import './index.css';
+
 const Login = () => {
     const history = useHistory();
     const [email, setEmail] = useState('');
