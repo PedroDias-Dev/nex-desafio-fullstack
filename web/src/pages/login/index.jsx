@@ -5,10 +5,42 @@ import {Container, Form, Button} from 'react-bootstrap';
 
 import toast, { Toaster } from 'react-hot-toast';
 
+import {url} from '../../utils/constants';
+
 const Login = () => {
     const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const login = (event) => {
+        event.preventDefault();
+
+        fetch(url + '/login',{
+            method : 'POST',
+            body : JSON.stringify({
+                email : email,
+                password : password
+            }),
+            headers : {
+                'content-type' : 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then(data => {
+            if(!data.error){
+                toast.success('Success, you will be redirected to our main page!');
+
+                setTimeout(() => { 
+                    localStorage.setItem('token', data.token);
+                    history.push('/products'); 
+                }, 3000);
+
+                return;
+            }
+            toast.error('There was an error: ' + data.error);
+        })
+        .catch(err => console.error(err));
+    }
 
     return (
         <div>
