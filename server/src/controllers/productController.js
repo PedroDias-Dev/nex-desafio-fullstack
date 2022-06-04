@@ -8,7 +8,7 @@ async function findAllProducts(req, res) {
     } catch (error) {
         console.log(error)
 
-        res.send(JSON.stringify({"status": 302, "error": error}));
+        res.status(500).send(JSON.stringify({"status": 500, "error": error}));
     }
 }
 
@@ -19,7 +19,7 @@ async function findProductById(req, res) {
     } catch (error) {
         console.log(error)
 
-        res.send(JSON.stringify({"status": 302, "error": error}));
+        res.status(500).send(JSON.stringify({"status": 500, "error": error}));
     }
 }
 
