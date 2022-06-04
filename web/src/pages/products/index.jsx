@@ -4,6 +4,8 @@ import {Container, Row, Col, Card} from 'react-bootstrap';
 import Header from '../../components/header';
 import {url} from '../../utils/constants';
 
+import toast, { Toaster } from 'react-hot-toast';
+
 const Products = () => {
     const [products, setProducts] = useState([]);
 
@@ -12,10 +14,20 @@ const Products = () => {
     }, []);
 
     const listProducts = () => {
-        fetch(url + '/products')
+        fetch(url + '/products',{
+            method : 'GET',
+            headers : {
+                'x-access-token' : localStorage.getItem('token')
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                if(data.status === "500"){
+                    toast.error('There was an error: ' + data.message);
+                    return;
+                }
+
                 setProducts(data)
             })
             .catch(err => console.error(err));
@@ -23,6 +35,7 @@ const Products = () => {
 
     return (
          <div>
+            <Toaster />
             <Header />
                 <Container>
                     <Row>
